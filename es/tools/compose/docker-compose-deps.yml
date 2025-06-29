@@ -1,0 +1,43 @@
+version: '3'
+services:
+  sqs:
+    image: ghcr.io/hpinc/krypton/krypton-local-storage
+    hostname: ${SQS}.${DOMAIN}
+    container_name: ${SQS}.${DOMAIN}
+    ports:
+    - ${SQS_PORT}:${SQS_PORT}
+    - ${SQS_ADMIN_PORT}:${SQS_ADMIN_PORT}
+    networks:
+      backend:
+        aliases:
+        - ${SQS}.${DOMAIN}
+    volumes:
+    - ./elasticmq.conf:/opt/elasticmq.conf:ro
+    tty: true
+  dsts:
+    image: ghcr.io/HPInc/krypton/krypton-dsts
+    hostname: ${DSTS}.${DOMAIN}
+    container_name: ${DSTS}.${DOMAIN}
+    networks:
+      backend:
+        aliases:
+        - ${DSTS}.${DOMAIN}
+    ports:
+    - ${DSTS_RPC_PORT}:${DSTS_RPC_PORT}
+    - ${DSTS_HTTP_PORT}:${DSTS_HTTP_PORT}
+    environment:
+    - DSTS_DB_HOST=${DB}.${DOMAIN}
+    - DSTS_DB_NAME=${DSTS_DB_NAME}
+    - DSTS_DB_USER=${DB_USER}
+    - DSTS_DB_PASSWORD=${DB_PASSWORD}
+    - DSTS_CACHE_HOST=${CACHE}.${DOMAIN}
+    - DSTS_CACHE_PORT=${CACHE_PORT}
+    - DSTS_CACHE_PASSWORD=${CACHE_PASSWORD}
+    - TEST_MODE=enabled
+    volumes:
+    - ./dstspublicKey.pem:/tmp/publicKey.pem:ro
+    - ./registered_apps.yaml:/go/bin/registered_apps.yaml:ro
+    tty: true
+networks:
+  backend:
+    driver: bridge

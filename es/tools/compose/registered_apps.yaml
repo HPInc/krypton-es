@@ -1,0 +1,7 @@
+# Applications that are registered with the DSTS.
+registered_apps:
+# app id for es enroll token
+- id: 8f5fafe3-a443-42a1-8ad5-e583935fbdd6
+  name: es internal test client
+  enabled: true
+  public_key_file: /tmp/publicKey.pem

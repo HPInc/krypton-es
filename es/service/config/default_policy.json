@@ -1,0 +1,6 @@
+{
+  "attributes": {
+    "BulkEnrollTokenLifetimeDays": "7"
+  },
+  "version": 1
+}
