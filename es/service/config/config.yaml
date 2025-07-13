@@ -1,0 +1,70 @@
+## Configuration file for the HP Device Enrollment Service.
+
+# Server configuration.
+server:
+  host: 0.0.0.0
+  port: 7979
+  max_retry_after_seconds: 60
+  retry_after_seconds: 2
+  debug_rest_requests: false
+
+# Notification configuration
+notification:
+  pending_enroll_name: pending-enroll
+  enroll_name: enrolled
+  enroll_error_name: enroll-error
+  enroll_watch_delay: 2
+  enroll_error_watch_delay: 2
+
+# cache configuration
+cache:
+  server: 127.0.0.1
+  password: krypton
+  port: 6379
+  enabled: true
+  # choose from enroll_average, sliding_window, pending_queue
+  retry_after_hint_strategy: average_enroll_time
+  # window size of enroll entries to compute average
+  enroll_time_window_size: 100
+  # window size of enroll updates to compute average
+  enroll_update_window_size: 100
+
+# Database configuration
+database:
+  server: 127.0.0.1
+  user: postgres
+  password: postgres
+  port: 5432
+  name: es
+  schema: /krypton/schema
+  migrate: true
+  enroll_expiry_minutes: 1440
+  enroll_expiry_delete_limit: 100
+  ssl_mode: disable           # Postgres SSL mode (disable, verify-ca OR verify-full)
+  ssl_root_cert: ''           # Name of the PEM file containing the root CA cert for SSL.
+
+# scheduled jobs
+scheduled_jobs:
+  delete_expired_enrolls:     # delete expired enrolls. see database config for expired settings
+    enabled: true             # is this job enabled?
+    start: 23:59:59           # hh:mm:ss in 24 hour format
+    every: 24h                # go duration format. such as "300ms", "1.5h" or "2h45m"
+
+# DSTS Server configuration for grpc connect
+
+# DSTS Server configuration for grpc connect
+dsts:
+  host: localhost
+  rpc_port: 7000
+
+# supported management services
+management_services:
+- hpconnect
+- hpcem
+
+# Logging configuration. You can specify an alternate log file path
+# using the --log-file command line flag.
+logging:
+  # Logging level to be used. Valid values of this setting are:
+  # "debug", "info", "warning", "error", "panic", "fatal"
+  log_level: debug

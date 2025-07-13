@@ -1,0 +1,19 @@
+# supported token types
+token_types:
+  azuread:
+    type: azuread
+    keys: http://jwt.local.dev:9090/api/v1/keys
+    audience: https://graph.microsoft.com
+    issuer: https://sts.windows.net
+    refresh_interval: 3600
+  test:
+    type: test
+    keys: http://localhost:9090/api/v1/keys
+    audience: https://graph.microsoft.com
+    issuer: https://sts.windows.net
+    refresh_interval: 3600
+  device:
+    type: device
+    keys: http://localhost:9090/api/v1/keys
+    issuer: HP Device Token Service
+    refresh_interval: 3600

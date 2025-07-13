@@ -1,0 +1,29 @@
+# supported token types
+token_types:
+  azuread:
+    type: azuread
+    audience: https://graph.microsoft.com
+    issuer: https://sts.windows.net
+    refresh_interval: 3600
+  device:
+    type: device
+    issuer: HP Device Token Service
+    refresh_interval: 3600
+  enrollment:
+    type: enrollment
+    keys: http://localhost:7001/api/v1/keys
+    issuer: HP Device Token Service
+    refresh_interval: 3600
+  test:
+    type: test
+    keys: http://localhost:9090/api/v1/keys
+    audience: https://graph.microsoft.com
+    issuer: https://sts.windows.net
+    refresh_interval: 3600
+  app:
+    type: app
+    keys: http://dsts.local.test:7001/api/v1/keys
+    issuer: HP Device Token Service
+    refresh_interval: 3600
+    allowed_app_ids:
+    - de7e595f-9aca-4334-9f47-2352d00acace

@@ -1,0 +1,27 @@
+version: '3'
+services:
+  test:
+    image: ghcr.io/hpinc/krypton/krypton-go-builder
+    hostname: ${TEST}.${DOMAIN}
+    container_name: ${TEST}.${DOMAIN}
+    networks:
+      backend:
+        aliases:
+        - ${TEST}.${DOMAIN}
+    environment:
+    - AWS_ACCESS_KEY_ID=test
+    - AWS_SECRET_ACCESS_KEY=test
+    - AWS_REGION=us-east-1
+    - ES_CACHE_SERVER=${CACHE}.${DOMAIN}
+    - ES_DB_SERVER=${DB}.${DOMAIN}
+    - ES_DB_SCHEMA_MIGRATION_SCRIPTS=/go/src/es/service/db/schema
+    - ES_DB_SCHEMA_MIGRATION_ENABED=true
+    - ES_TEST_JWT_SERVER=http://${JWT}.${DOMAIN}:${JWT_PORT}
+    volumes:
+    - ../../../es:/go/src/es
+    working_dir: /go/src/es
+    command: ./tools/run_ci_test.sh
+    tty: true
+networks:
+  backend:
+    driver: bridge

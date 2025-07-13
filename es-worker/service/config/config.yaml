@@ -1,0 +1,34 @@
+## Configuration file for the HP Krypton Enroll Service.
+
+# Server configuration
+server:
+  host: localhost
+  port: 8181
+  log_rest_requests: false
+
+# Notification configuration
+notification:
+  pending_enroll_name: pending-enroll
+  pending_registration_name: pending-registration
+  enroll_name: enrolled
+  enroll_error_name: enroll-error
+  pending_enroll_watch_delay: 2
+  pending_registration_watch_delay: 2
+
+# CA Server configuration for grpc connect
+ca:
+  host: localhost
+  port: 6969
+
+# DSTS Server configuration for grpc connect
+dsts:
+  host: localhost
+  port: 7000
+
+# Logging configuration. You can specify an alternate log file path
+# using the --log-file command line flag.
+logging:
+  # Logging level to be used. Valid values of this setting are:
+  # "debug", "info", "warning", "error", "panic", "fatal"
+  log_level: debug
+operation_mode: process_pending_enroll

@@ -1,5 +1,5 @@
-## es
-Device enrollment service for Krypton
+## es-worker
+Device enrollment worker for Krypton
 
 ### Dependencies
 This project is compiled and run on linux virtual machines. Most of the testing is done in an Ubuntu vm.
