@@ -6,7 +6,7 @@ ifndef HAS_DOCKER_COMPOSE
   DOCKER_COMPOSE=docker compose
   DOCKER_COMPOSE_QUIET_PULL=--quiet-pull
 endif
-KEYS_GEN_IMAGE:=ghcr.io/hpinc/krypton/krypton-test-runner
+KEYS_GEN_IMAGE:=ghcr.io/hpinc/krypton/krypton-go-builder
 
 include .env
 
