@@ -1,5 +1,4 @@
 DOCKER_IMAGE_NAME=krypton-es-worker
-CACHE_IMAGE_NAME=es-worker-cached-builder
 # See README.md on why we have protos coming in as docker containers
 CA_IMAGE=ghcr.io/hpinc/krypton/krypton-ca:latest
 CA_PROTO=ghcr.io/hpinc/krypton/krypton-caprotos:latest
@@ -63,11 +62,7 @@ lint: protos
 build:
 	go build -o $(BIN) service/main.go
 
-# build cache if no local cache exist
-docker_cache:
-	@if [ $$(docker images -q $(CACHE_IMAGE_NAME) | wc -l) -eq 0 ]; then docker build -t $(CACHE_IMAGE_NAME) -f docker/Dockerfile.cache .; fi
-
-docker: $(CA_PROTOS_DIR) $(DSTS_PROTOS_DIR) docker_cache
+docker: $(CA_PROTOS_DIR) $(DSTS_PROTOS_DIR)
 	docker build -t $(DOCKER_IMAGE_NAME) .
 
 test:
@@ -76,11 +71,10 @@ test:
 test_docker: docker-image
 	docker run -it --rm $(DOCKER_IMAGE_NAME)
 
-clean: clean_deps clean_build_cache
+clean: clean_deps
 	go clean
 
 clean_deps: clean_$(CA_PROTOS_DIR) clean_$(DSTS_PROTOS_DIR)
-	make -C tools/compose clean
 
 clean_$(CA_PROTOS_DIR):
 	-rm -rf $(CA_PROTOS_DIR)
@@ -92,10 +86,7 @@ clean_$(DSTS_PROTOS_DIR):
 	-docker rmi $(DSTS_PROTO)
 	-docker rmi $(DSTS_IMAGE)
 
-clean_build_cache:
-	-docker rmi $(CACHE_IMAGE_NAME)
-
 check_goimports:
 	@which goimports >/dev/null 2>&1 || (echo "goimports not found";exit 1)
 
-.PHONY: run fmt tidy build docker-image test_docker clean check_goimports lint protos clean_build_cache docker docker_cache gosec
+.PHONY: run fmt tidy build docker-image test_docker clean check_goimports lint protos docker gosec

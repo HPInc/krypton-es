@@ -1,4 +1,4 @@
-FROM es-worker-cached-builder as builder
+FROM ghcr.io/hpinc/krypton/krypton-go-builder AS builder
 
 ADD . /go/src/es-worker
 WORKDIR /go/src/es-worker
